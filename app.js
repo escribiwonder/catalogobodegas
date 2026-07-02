@@ -1,4 +1,4 @@
-const storageKey = "mi-bodega-design-v1";
+const storageKey = "bodega-baco-catalogo-v2";
 
 const typeClass = {
   Tinto: "red",
@@ -7,6 +7,7 @@ const typeClass = {
 };
 
 const wines = loadWines();
+let activeFilter = "Todos";
 
 const elements = {
   list: document.querySelector("#wineList"),
@@ -15,6 +16,14 @@ const elements = {
   red: document.querySelector("#redCount"),
   white: document.querySelector("#whiteCount"),
   rose: document.querySelector("#roseCount"),
+  drawerTotal: document.querySelector("#drawerTotal"),
+  menu: document.querySelector("#menuDrawer"),
+  menuButton: document.querySelector("#menuButton"),
+  closeMenu: document.querySelector("#closeMenuButton"),
+  drawerAdd: document.querySelector("#drawerAddButton"),
+  searchButton: document.querySelector("#searchButton"),
+  searchPanel: document.querySelector("#searchPanel"),
+  searchInput: document.querySelector("#searchInput"),
   dialog: document.querySelector("#wineDialog"),
   form: document.querySelector("#wineForm"),
   add: document.querySelector("#addButton"),
@@ -23,7 +32,29 @@ const elements = {
 
 elements.sort.addEventListener("change", render);
 elements.add.addEventListener("click", () => elements.dialog.showModal());
+elements.drawerAdd.addEventListener("click", () => {
+  closeMenu();
+  elements.dialog.showModal();
+});
 elements.cancel.addEventListener("click", () => elements.dialog.close());
+elements.menuButton.addEventListener("click", openMenu);
+elements.closeMenu.addEventListener("click", closeMenu);
+elements.menu.addEventListener("click", (event) => {
+  if (event.target === elements.menu) closeMenu();
+});
+elements.searchButton.addEventListener("click", () => {
+  elements.searchPanel.hidden = !elements.searchPanel.hidden;
+  if (!elements.searchPanel.hidden) elements.searchInput.focus();
+});
+elements.searchInput.addEventListener("input", render);
+document.querySelectorAll(".filter-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    document.querySelectorAll(".filter-button").forEach((item) => item.classList.toggle("active", item === button));
+    closeMenu();
+    render();
+  });
+});
 
 elements.form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -35,6 +66,9 @@ elements.form.addEventListener("submit", (event) => {
     price: data.price.trim(),
     year: data.year.trim(),
     description: data.description.trim() || "Nueva referencia de la bodega.",
+    grape: data.type === "Blanco" ? "Airen" : data.type === "Rosado" ? "Garnacha" : "Tempranillo",
+    label: "BACO",
+    range: "Nueva seleccion",
     photos: 1
   });
   saveWines();
@@ -49,30 +83,39 @@ function loadWines() {
 
   return [
     {
-      id: "wine-1",
-      name: "Botella 1",
+      id: "baco-tempranillo",
+      name: "Baco Tempranillo",
       type: "Tinto",
-      price: "25,00",
-      year: "2018",
-      description: "Reserva 2018. Crianza en barrica. Notas de frutas rojas y especias.",
-      photos: 1
+      price: "16,90",
+      year: "2021",
+      grape: "Tempranillo",
+      label: "BACO",
+      range: "Seleccion Roble",
+      description: "Tinto de corte manchego con fruta negra, vainilla fina y tanino pulido. Pensado para carta de restaurante y venta directa.",
+      photos: 3
     },
     {
-      id: "wine-2",
-      name: "Botella 2",
+      id: "baco-airen",
+      name: "Baco Airen",
       type: "Blanco",
-      price: "18,50",
-      year: "2023",
-      description: "Verdejo 2023. Fresco y afrutado. Ideal para mariscos y ensaladas.",
-      photos: 1
+      price: "9,80",
+      year: "2024",
+      grape: "Airen",
+      label: "BACO",
+      range: "Vendimia Nocturna",
+      description: "Blanco limpio y fresco, con pera, flor blanca y final citrico. Referencia de rotacion para tapeo, mariscos y aperitivo.",
+      photos: 2
     },
     {
-      id: "wine-3",
-      name: "Botella 3",
+      id: "baco-garnacha-rose",
+      name: "Baco Garnacha Rose",
       type: "Rosado",
-      price: "12,00",
-      year: "2023",
-      description: "Rosado joven 2023. Ligero y afrutado. Perfecto para aperitivos.",
+      price: "11,40",
+      year: "2024",
+      grape: "Garnacha",
+      label: "BACO",
+      range: "Flor de Baco",
+      description: "Rosado palido de perfil gastronomico, con fresa silvestre, piel de naranja y final seco. Ideal para terraza y cocina mediterranea.",
       photos: 2
     }
   ];
@@ -83,9 +126,19 @@ function saveWines() {
 }
 
 function render() {
-  const sorted = [...wines].sort(sorters[elements.sort.value]);
+  const filtered = getFilteredWines();
+  const sorted = [...filtered].sort(sorters[elements.sort.value]);
   elements.list.innerHTML = sorted.map((wine, index) => createWineCard(wine, index)).join("");
   renderMetrics();
+}
+
+function getFilteredWines() {
+  const query = elements.searchInput.value.trim().toLowerCase();
+  return wines.filter((wine) => {
+    const matchesType = activeFilter === "Todos" || wine.type === activeFilter;
+    const haystack = [wine.name, wine.type, wine.year, wine.grape, wine.range, wine.description].join(" ").toLowerCase();
+    return matchesType && (!query || haystack.includes(query));
+  });
 }
 
 const sorters = {
@@ -99,6 +152,7 @@ function renderMetrics() {
   elements.red.textContent = wines.filter((wine) => wine.type === "Tinto").length;
   elements.white.textContent = wines.filter((wine) => wine.type === "Blanco").length;
   elements.rose.textContent = wines.filter((wine) => wine.type === "Rosado").length;
+  elements.drawerTotal.textContent = wines.length;
 }
 
 function createWineCard(wine, index) {
@@ -108,15 +162,23 @@ function createWineCard(wine, index) {
     <article class="wine-card ${cardClass}">
       <div class="wine-index">${index + 1}</div>
       <div class="bottle-stage" aria-hidden="true">
-        <div class="bottle"><span class="cap"></span></div>
+        <div class="bottle">
+          <span class="cap"></span>
+          <span class="neck-label">${escapeHtml(wine.year)}</span>
+          <span class="main-label">
+            <b>${escapeHtml(wine.label || "BACO")}</b>
+            <small>${escapeHtml(wine.range || wine.grape || wine.type)}</small>
+          </span>
+        </div>
       </div>
       <div class="wine-info">
         <button class="more-button" type="button" aria-label="Mas opciones">⋮</button>
         <h2>${escapeHtml(wine.name)}</h2>
-        <p>Vino ${escapeHtml(lowerType)}</p>
+        <p>${escapeHtml(wine.range || `Vino ${lowerType}`)}</p>
         <hr>
         <div class="wine-facts">
           ${fact(iconGrapes(), "Color", `Vino ${lowerType}`)}
+          ${fact(iconBottle(), "Uva", escapeHtml(wine.grape || "Seleccion de la bodega"))}
           ${fact(iconTag(), "Precio", `${escapeHtml(wine.price)} €`)}
           ${fact(iconDoc(), "Descripcion", escapeHtml(wine.description))}
           ${fact(iconCamera(), "Foto", `${wine.photos} ${wine.photos === 1 ? "imagen" : "imagenes"}`)}
@@ -138,6 +200,10 @@ function fact(icon, label, value) {
 
 function iconGrapes() {
   return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="2.5"/><circle cx="14" cy="8" r="2.5"/><circle cx="11.5" cy="12" r="2.5"/><circle cx="8.5" cy="16" r="2.5"/><path d="M14 4c1.5 0 3-.6 4-2"/></svg>';
+}
+
+function iconBottle() {
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4v6l2 3v10H8V11l2-3V2Z"/><path d="M10 6h4"/></svg>';
 }
 
 function iconTag() {
@@ -163,6 +229,16 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function openMenu() {
+  elements.menu.classList.add("open");
+  elements.menu.setAttribute("aria-hidden", "false");
+}
+
+function closeMenu() {
+  elements.menu.classList.remove("open");
+  elements.menu.setAttribute("aria-hidden", "true");
 }
 
 render();

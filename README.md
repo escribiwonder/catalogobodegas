@@ -1,6 +1,6 @@
-# Mi Bodega
+# Bodega Baco
 
-Maqueta responsive del catalogo de botellas basada en el diseno de referencia.
+MVP responsive del catalogo de botellas de una bodega, basado en el diseno movil de referencia y preparado para generar APK con GitHub Actions.
 
 ## Uso
 
@@ -25,8 +25,11 @@ En GitHub Actions el workflow se llama `botellero1` y publica el artefacto `bote
 
 ## Incluye
 
-- Cabecera tipo app movil con marca `MI BODEGA`.
+- Cabecera tipo app movil con marca `BODEGA BACO`.
+- Menu lateral funcional con filtros por tipo de vino.
+- Busqueda desplegable por nombre, tipo, uva, anada o descripcion.
 - Tarjeta de resumen con conteo de botellas por tipo.
-- Listado de botellas con franja lateral, botella visual, precio, descripcion y fotos.
+- Tres botellas iniciales de una misma bodega: Baco Tempranillo, Baco Airen y Baco Garnacha Rose.
+- Listado de botellas con franja lateral, botella visual disenada en CSS, precio, uva, descripcion y fotos.
 - Boton flotante para anadir nuevas botellas.
 - Persistencia local en el navegador para las botellas creadas.

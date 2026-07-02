@@ -15,13 +15,18 @@
         <span></span>
       </div>
       <nav class="nav-actions" aria-label="Acciones principales">
-        <button class="round-button menu-button" type="button" aria-label="Abrir menu">
+        <button id="menuButton" class="round-button menu-button" type="button" aria-label="Abrir menu">
           <span></span><span></span><span></span>
         </button>
-        <button class="round-button search-button" type="button" aria-label="Buscar">
+        <button id="searchButton" class="round-button search-button" type="button" aria-label="Buscar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m1.35-5.15a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z"/></svg>
         </button>
       </nav>
+      <section id="searchPanel" class="search-panel" aria-label="Buscar botellas" hidden>
+        <label>Buscar en Bodega Baco
+          <input id="searchInput" type="search" placeholder="Nombre, tipo, notas...">
+        </label>
+      </section>
       <div class="vine-art" aria-hidden="true">
         <span class="leaf leaf-a"></span>
         <span class="leaf leaf-b"></span>
@@ -33,8 +38,8 @@
           <path d="M14 60c7-13 21-13 32-4 11-9 25-9 32 4"/>
           <circle cx="25" cy="47" r="5"/><circle cx="34" cy="41" r="5"/><circle cx="42" cy="50" r="5"/>
         </svg>
-        <p>MI BODEGA</p>
-        <span>Tu coleccion de vino</span>
+        <p>BODEGA BACO</p>
+        <span>Catalogo de finca</span>
       </section>
     </header>
 
@@ -79,6 +84,26 @@
 
     <button id="addButton" class="floating-button" type="button" aria-label="Anadir botella">+</button>
   </main>
+
+  <aside id="menuDrawer" class="menu-drawer" aria-label="Menu de bodega" aria-hidden="true">
+    <div class="drawer-panel">
+      <button id="closeMenuButton" class="drawer-close" type="button" aria-label="Cerrar menu">×</button>
+      <p class="drawer-kicker">Programa de bodega</p>
+      <h2>Bodega Baco</h2>
+      <p class="drawer-copy">Gestion de catalogo para una bodega familiar de Castilla-La Mancha, con botellas separadas por tipo, anada y precio.</p>
+      <div class="drawer-stats">
+        <span><strong id="drawerTotal">0</strong> botellas</span>
+        <span><strong>3</strong> lineas activas</span>
+      </div>
+      <nav class="drawer-nav" aria-label="Filtros de catalogo">
+        <button class="filter-button active" type="button" data-filter="Todos">Todo el catalogo</button>
+        <button class="filter-button" type="button" data-filter="Tinto">Tintos</button>
+        <button class="filter-button" type="button" data-filter="Blanco">Blancos</button>
+        <button class="filter-button" type="button" data-filter="Rosado">Rosados</button>
+      </nav>
+      <button id="drawerAddButton" class="drawer-primary" type="button">Anadir botella</button>
+    </div>
+  </aside>
 
   <dialog id="wineDialog">
     <form id="wineForm" method="dialog">
