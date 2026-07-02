@@ -30,6 +30,7 @@ En GitHub Actions el workflow se llama `botellero1` y publica el artefacto `bote
 - Busqueda desplegable por nombre, tipo, uva, anada o descripcion.
 - Tarjeta de resumen con conteo de botellas por tipo.
 - Tres botellas iniciales de una misma bodega: Baco Tempranillo, Baco Airen y Baco Garnacha Rose.
-- Listado de botellas con franja lateral, botella visual disenada en CSS, precio, uva, descripcion y fotos.
-- Boton flotante para anadir nuevas botellas.
+- Listado de botellas con franja lateral, fotos realistas, precio, uva, descripcion y fotos.
+- Ficha individual al tocar cada botella, con descripcion, cata, servicio y maridaje.
+- Boton flotante para anadir nuevas botellas, limitado a un maximo de 10 referencias.
 - Persistencia local en el navegador para las botellas creadas.

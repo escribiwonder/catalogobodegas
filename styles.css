@@ -41,26 +41,8 @@ button { cursor: pointer; }
 
 .app-header {
   position: relative;
-  min-height: 320px;
-  padding-top: 8px;
-}
-
-.statusbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 30px;
-  padding: 0 18px;
-  font-weight: 900;
-}
-
-.statusbar span {
-  width: 76px;
-  height: 14px;
-  background:
-    linear-gradient(90deg, #111 0 10px, transparent 10px 17px, #111 17px 29px, transparent 29px 37px, #111 37px 50px),
-    linear-gradient(#111, #111) right center / 24px 10px no-repeat;
-  opacity: .92;
+  min-height: 302px;
+  padding-top: 24px;
 }
 
 .nav-actions {
@@ -69,7 +51,6 @@ button { cursor: pointer; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 24px;
   padding: 0 10px;
 }
 
@@ -111,7 +92,7 @@ button { cursor: pointer; }
 .vine-art {
   position: absolute;
   left: -32px;
-  top: 120px;
+  top: 104px;
   width: 190px;
   height: 190px;
   opacity: .62;
@@ -148,7 +129,8 @@ button { cursor: pointer; }
   z-index: 2;
   display: grid;
   justify-items: center;
-  margin-top: 4px;
+  margin-top: 28px;
+  padding: 0 66px;
 }
 
 .brand-mark {
@@ -165,7 +147,7 @@ button { cursor: pointer; }
   margin: 4px 0 0;
   color: var(--wine);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.25rem, 11vw, 3.45rem);
+  font-size: clamp(2.1rem, 10vw, 3.25rem);
   font-weight: 900;
   line-height: .9;
   letter-spacing: 0;
@@ -208,7 +190,7 @@ button { cursor: pointer; }
   z-index: 4;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin: -72px 10px 34px;
+  margin: -58px 10px 34px;
   padding: 24px 10px;
   border: 1px solid rgba(219, 205, 195, .75);
   border-radius: var(--radius);
@@ -339,6 +321,15 @@ button { cursor: pointer; }
   border-radius: 14px;
   background: var(--paper);
   box-shadow: 0 10px 24px rgba(73, 54, 46, .09);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.wine-card:hover,
+.wine-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(73, 54, 46, .14);
+  outline: 0;
 }
 
 .wine-index {
@@ -356,8 +347,18 @@ button { cursor: pointer; }
 .bottle-stage {
   display: grid;
   place-items: end center;
-  padding: 24px 12px 18px;
+  padding: 12px 10px 10px;
   background: linear-gradient(90deg, rgba(255,255,255,.72), rgba(244, 238, 230, .42));
+}
+
+.bottle-photo {
+  width: min(100%, 112px);
+  height: 184px;
+  object-fit: contain;
+  object-position: center bottom;
+  border-radius: 10px;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 14px 12px rgba(39, 26, 21, .16));
 }
 
 .bottle {
@@ -551,6 +552,13 @@ button { cursor: pointer; }
   line-height: 0;
 }
 
+.floating-button:disabled,
+.drawer-primary:disabled {
+  cursor: not-allowed;
+  opacity: .42;
+  box-shadow: none;
+}
+
 .menu-drawer {
   position: fixed;
   inset: 0;
@@ -688,6 +696,150 @@ dialog {
 
 dialog::backdrop { background: rgba(25, 17, 14, .45); }
 
+.detail-dialog {
+  max-height: min(86vh, 760px);
+  overflow: auto;
+}
+
+.detail-content {
+  position: relative;
+  padding: 0 0 22px;
+}
+
+.detail-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 250, 245, .9);
+  color: var(--wine);
+  box-shadow: 0 8px 18px rgba(74, 55, 47, .12);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.detail-hero {
+  display: grid;
+  grid-template-columns: 126px 1fr;
+  gap: 18px;
+  align-items: end;
+  min-height: 254px;
+  padding: 26px 22px 20px;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.86), transparent 11rem),
+    linear-gradient(135deg, rgba(123, 34, 41, .14), rgba(255, 250, 244, .98));
+}
+
+.detail-hero.white {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.86), transparent 11rem),
+    linear-gradient(135deg, rgba(150, 147, 61, .16), rgba(255, 250, 244, .98));
+}
+
+.detail-hero.rose {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255,255,255,.86), transparent 11rem),
+    linear-gradient(135deg, rgba(216, 131, 120, .18), rgba(255, 250, 244, .98));
+}
+
+.detail-bottle {
+  width: 118px;
+  height: 214px;
+  object-fit: contain;
+  object-position: center bottom;
+  border-radius: 12px;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 18px 16px rgba(39, 26, 21, .18));
+}
+
+.detail-hero p {
+  margin: 0 0 8px;
+  color: var(--wine);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.detail-hero h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.2rem;
+  line-height: .95;
+  text-transform: uppercase;
+}
+
+.detail-hero span {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.detail-section {
+  padding: 22px 22px 4px;
+}
+
+.detail-section h3 {
+  margin: 0 0 10px;
+  color: var(--wine);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+}
+
+.detail-section p {
+  margin: 0 0 10px;
+  color: #302a26;
+  line-height: 1.5;
+}
+
+.detail-facts {
+  display: grid;
+  gap: 10px;
+  margin: 8px 22px 0;
+}
+
+.detail-facts div {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.detail-facts dt {
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.detail-facts dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 104px;
+  z-index: 30;
+  width: min(86vw, 360px);
+  margin: 0;
+  padding: 13px 16px;
+  border-radius: 999px;
+  background: #171313;
+  color: #fffaf3;
+  box-shadow: 0 14px 28px rgba(25, 17, 14, .24);
+  font-weight: 800;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
 form {
   display: grid;
   gap: 12px;
@@ -789,5 +941,19 @@ input, select, textarea {
   .bottle {
     width: 42px;
     height: 144px;
+  }
+
+  .bottle-photo {
+    width: 100px;
+    height: 176px;
+  }
+
+  .detail-hero {
+    grid-template-columns: 104px 1fr;
+    padding-inline: 18px;
+  }
+
+  .detail-bottle {
+    width: 98px;
   }
 }
