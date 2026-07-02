@@ -41,17 +41,19 @@ button { cursor: pointer; }
 
 .app-header {
   position: relative;
-  min-height: 302px;
-  padding-top: 24px;
+  min-height: 326px;
+  padding-top: 0;
 }
 
 .nav-actions {
-  position: relative;
+  position: absolute;
+  top: 24px;
+  left: 10px;
+  right: 10px;
   z-index: 3;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
 }
 
 .round-button {
@@ -129,8 +131,8 @@ button { cursor: pointer; }
   z-index: 2;
   display: grid;
   justify-items: center;
-  margin-top: 28px;
-  padding: 0 66px;
+  margin-top: 0;
+  padding: 116px 34px 0;
 }
 
 .brand-mark {
@@ -147,9 +149,11 @@ button { cursor: pointer; }
   margin: 4px 0 0;
   color: var(--wine);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.1rem, 10vw, 3.25rem);
+  width: 100%;
+  max-width: 330px;
+  font-size: clamp(2rem, 8.4vw, 2.75rem);
   font-weight: 900;
-  line-height: .9;
+  line-height: .96;
   letter-spacing: 0;
   text-align: center;
 }
